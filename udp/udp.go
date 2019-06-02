@@ -5,11 +5,7 @@ import (
 	"log"
 )
 
-// Start a proxy server listen on fromport
-// this proxy will then forward all request from fromport to toport
-//
-// Notice: a service must has been started on toport
-func ProxyStart(fromport, toport int) {
+func ProxyStart(fromport int,targetaddr string) {
 	proxyaddr := fmt.Sprintf(":%d", fromport)
 	udp_addr, err := net.ResolveUDPAddr("udp", "127.0.0.1"+proxyaddr)
 	//创建监听的地址，并且指定udp协议
@@ -34,7 +30,6 @@ func ProxyStart(fromport, toport int) {
 		}
 
 		log.Println("start udp",string(buf[:n]))
-		targetaddr := fmt.Sprintf("127.0.0.1:%d", toport)
 		targetconn, err := net.Dial("udp", targetaddr)
 		if err != nil {
 			fmt.Println("net.Dial err:", err)

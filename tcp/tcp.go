@@ -5,8 +5,8 @@ import (
 "fmt"
 "net"
 )
-
-func ProxyStart(fromport, toport int) {
+//端口fromport转发到端口targetaddr
+func ProxyStart(fromport int, targetaddr string) {
 	proxyaddr := fmt.Sprintf(":%d", fromport)
 	proxylistener, err := net.Listen("tcp", proxyaddr)
 	if err != nil {
@@ -28,7 +28,6 @@ func ProxyStart(fromport, toport int) {
 			fmt.Printf("Unable to read from input, error: %s\n", err.Error())
 			continue
 		}
-		targetaddr := fmt.Sprintf("localhost:%d", toport);
 		targetconn, err := net.Dial("tcp", targetaddr)
 		if err != nil {
 			fmt.Println("Unable to connect to: %s, error: %s\n", targetaddr, err.Error())
